@@ -65,4 +65,11 @@ class Plane extends AbstractPlane
      */
     protected $airport;
 
+    public function __construct()
+    {
+        $this->currentLocationX = 0;
+        $this->currentLocationY = 0;
+        $this->remainingFuel = 0;
+        $this->passengerCount = 0;
+    }
 }
