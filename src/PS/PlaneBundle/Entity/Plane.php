@@ -20,27 +20,37 @@ class Plane extends AbstractPlane
     protected $id;
 
     /**
-     * TODO: Set the correct ORM mapping using annotations
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
      */
     protected $name;
 
     /**
-     * TODO: Set the correct ORM mapping using annotations
+     * @var integer
+     *
+     * @ORM\Column(name="currentLocationX", type="integer")
      */
     protected $currentLocationX;
 
     /**
-     * TODO: Set the correct ORM mapping using annotations
+     * @var integer
+     *
+     * @ORM\Column(name="currentLocationY", type="integer")
      */
     protected $currentLocationY;
 
     /**
-     * TODO: Set the correct ORM mapping using annotations
+     * @var integer
+     *
+     * @ORM\Column(name="remainingFuel", type="integer")
      */
     protected $remainingFuel;
 
     /**
-     * TODO: Set the correct ORM mapping using annotations
+     * @var integer
+     *
+     * @ORM\Column(name="passengerCount", type="integer")
      */
     protected $passengerCount;
 
