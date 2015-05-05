@@ -22,6 +22,7 @@ class Plane extends AbstractPlane
     /**
      * @var string
      *
+     * @Assert\Length(min="2", max="255")
      * @ORM\Column(name="name", type="string", length=255)
      */
     protected $name;
@@ -29,6 +30,7 @@ class Plane extends AbstractPlane
     /**
      * @var integer
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="currentLocationX", type="integer")
      */
     protected $currentLocationX;
@@ -36,6 +38,7 @@ class Plane extends AbstractPlane
     /**
      * @var integer
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="currentLocationY", type="integer")
      */
     protected $currentLocationY;
@@ -43,6 +46,7 @@ class Plane extends AbstractPlane
     /**
      * @var integer
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="remainingFuel", type="integer")
      */
     protected $remainingFuel;
@@ -50,6 +54,7 @@ class Plane extends AbstractPlane
     /**
      * @var integer
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="passengerCount", type="integer")
      */
     protected $passengerCount;
@@ -59,4 +64,5 @@ class Plane extends AbstractPlane
      * TODO: Set the correct ORM mapping using annotations
      */
     protected $airport;
+
 }
