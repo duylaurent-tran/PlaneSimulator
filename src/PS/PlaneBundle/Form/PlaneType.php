@@ -12,7 +12,22 @@ class PlaneType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
+        $builder
+            ->add('name', 'text', array(
+                'required' => true
+            ))
+            ->add('currentLocationX', 'integer', array(
+                'required' => true
+            ))
+            ->add('currentLocationY', 'integer', array(
+                'required' => true
+            ))
+            ->add('remainingFuel', 'integer', array(
+                'required' => true
+            ))
+            ->add('passengerCount', 'integer', array(
+                'required' => true
+            ));
     }
 
     /**
