@@ -9,10 +9,28 @@ use PS\PlaneBundle\Model\Location;
 use PS\PlaneBundle\Model\PlaneInterface;
 use PS\PlaneBundle\PlaneEvents;
 use PS\PlaneBundle\Services\PlaneTravelServiceInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PlaneTravelService implements PlaneTravelServiceInterface
 {
+    const NOT_ENOUGH_FUEL = 'The plane does not have enough fuel to get to destination';
+
+    /**
+     * Calculate the remaining fuel to get to destination
+     *
+     * @param int $currentFuel the current fuel of the plane
+     * @param int $distance the distance to get to destination
+     * @param int $fuelPerDistanceUnit the fuel used by the plane by distance unit
+     *
+     * @return int return the remaining fuel
+     *
+     */
+    private function calculateRemainingFuelToDestination($currentFuel, $distance, $fuelPerDistanceUnit = 1)
+    {
+        return  $currentFuel - $distance * $fuelPerDistanceUnit;
+    }
+
     /**
      * Caculate the distance two points
      *
@@ -32,8 +50,16 @@ class PlaneTravelService implements PlaneTravelServiceInterface
      */
     public function travel(PlaneInterface $plane, Location $target)
     {
-        echo $this->calculate2dDistance($plane->getCurrentLocation(), $target);die();
-        // Hint for exercise 3: use the method findOneByLocation()
-        // on the AirportRepository
+        $distance = round($this->calculate2dDistance($plane->getCurrentLocation(), $target));
+        $remainingFuel = $this->calculateRemainingFuelToDestination($plane->getRemainingFuel(), $distance);
+
+        if ($remainingFuel < 0) {
+            throw new NotEnoughFuelException(
+                PlaneTravelService::NOT_ENOUGH_FUEL,
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+        $plane->setCurrentLocation($target);
+        $plane->setRemainingFuel($remainingFuel);
     }
 }
