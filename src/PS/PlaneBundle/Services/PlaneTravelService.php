@@ -13,15 +13,27 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PlaneTravelService implements PlaneTravelServiceInterface
 {
+    /**
+     * Caculate the distance two points
+     *
+     * @param int $x1 abscisse coordinate of start point
+     * @param int $y1 ordinate coordinate of start point
+     * @param int $x2 abscisse of target point
+     * @param int $y2 ordinate of target point
+
+     * @return float Distance between points
+     *
+     */
+    private function calculate2dDistance($x1, $y1, $x2, $y2)
+    {
+        return sqrt(pow(($x2 - $x1), 2) + pow(($y2 - $y1), 2));
+    }
 
     /**
      * {@inheritdoc}
      */
     public function travel(PlaneInterface $plane, Location $target)
     {
-        // TODO
 
-        // Hint for exercise 3: use the method findOneByLocation()
-        // on the AirportRepository
     }
 }

@@ -1,6 +1,7 @@
 services:
 # TODO: Declare the PlaneTravel service
-
+    ps_plane.plane_trave_service:
+        class: PS\PlaneBundle\Services\PlaneTravelService
 # TODO: Update the subscriber definition according to your needs
     ps_plane.airport_landing_subscriber:
         class: PS\PlaneBundle\EventListener\AirportLandingSubscriber
