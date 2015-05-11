@@ -16,10 +16,7 @@ class PlaneType extends AbstractType
             ->add('name', 'text', array(
                 'required' => true
             ))
-            ->add('currentLocationX', 'integer', array(
-                'required' => true
-            ))
-            ->add('currentLocationY', 'integer', array(
+            ->add('currentLocation', new LocationType(), array(
                 'required' => true
             ))
             ->add('remainingFuel', 'integer', array(
