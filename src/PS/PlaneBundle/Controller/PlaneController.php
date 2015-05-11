@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class PlaneController extends Controller
 {
@@ -32,7 +33,6 @@ class PlaneController extends Controller
 
         $planeForm->submit($request);
         if (!$planeForm->isValid()) {
-
             $formErrors = $this->getFormErrorMessage($planeForm);
 
             return new Response(
@@ -57,11 +57,41 @@ class PlaneController extends Controller
      * Move a plane to a new location and returns it.
      *
      * @Route("/plane/{id}/travel")
+     * @ParamConverter("Plane")
      * @Method({"POST"})
      */
-    public function travelAction(Request $request, $id)
+    public function travelAction(Request $request, Plane $plane)
     {
-        // TODO
+        $planeTravelService = $this->get('ps_plane.plane_trave_service');
+        $location = new Location();
+        $locationForm = $this->createForm(new LocationType(), $location);
+
+        try {
+            $locationForm->submit($request);
+            if (!$locationForm->isValid()) {
+                $formErrors = $this->getFormErrorMessage($locationForm);
+
+                return new Response(
+                    empty($formErrors['error']) ? "" : json_encode($formErrors),
+                    Response::HTTP_BAD_REQUEST,
+                    array('Content-Type' => 'application/json')
+                );
+            }
+            $planeTravelService->travel($plane, $locationForm->getData());
+        } catch (\Exception $e) {
+            return new Response(
+                json_encode(array('errors' => $e->getMessage())),
+                Response::HTTP_BAD_REQUEST,
+                array('Content-Type' => 'application/json')
+            );
+        }
+        $this->getDoctrine()->getEntityManager()->flush();
+
+        return new Response(
+            json_encode($plane->toArray()),
+            Response::HTTP_CREATED,
+            array('Content-Type' => 'application/json')
+        );
     }
 
     /**
